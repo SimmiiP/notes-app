@@ -19,4 +19,18 @@ class NoteAPI {
             listOfNotes
         }
     }
+
+    fun numberOfNotes(): Int {
+        return notes.size
+    }
+
+    fun findNote(index: Int): Note?{
+        return if (isValidListIndex(index, notes)){
+            notes[index]
+        }else null
+    }
+
+    fun isValidListIndex(index: Int, list: List<Any>): Boolean {
+        return (index >= 0 &&index < list.size)
+    }
 }

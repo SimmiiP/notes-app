@@ -111,6 +111,24 @@ class NoteAPI {
         return counter
     }
 
+    /*fun listNotesByCategory(): String {
+        return if (notes.isEmpty()) {
+            "No notes stored"
+        } else {
+            var listOfCategoriedNotes = ""
+            for (i in notes.indices) {
+                listOfCategoriedNotes += "${i}: ${notes[i]} \n"
+            }
+            listOfCategoriedNotes
+        }
+    }*/
+
+    fun deleteNote(indexToDelete : Int): Note? {
+        return if (isValidListIndex(indexToDelete, notes)) {
+            notes.removeAt(indexToDelete)
+        } else null
+    }
+
 }
 
 

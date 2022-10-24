@@ -5,6 +5,5 @@ data class Note(
     val notePriority: Int,
     val noteCategory: String,
     val isNoteArchived: Boolean
-){
+)
 
-}

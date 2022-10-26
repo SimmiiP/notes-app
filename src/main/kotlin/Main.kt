@@ -23,7 +23,7 @@ fun mainMenu() : Int {
        ------------------------------
        | NOTE MENU                  |
        |   1) Add a note            |
-       |   2) List all notes        |
+       |   2) List notes            |
        |   3) Update a note         |
        |   4) Delete a note         |
        |   5) Archive a note        |
@@ -36,12 +36,28 @@ fun mainMenu() : Int {
 
 }
 
-fun runMenu(){
+fun subMenu(): Int {
+    return ScannerInput.readNextInt("""
+       ------------------------------
+       |        NOTE KEEPER APP     |
+       ------------------------------
+       | LIST NOTE SUBMENU               |
+       |   1) List all Notes        |
+       |   2) List Active Notes     |
+       |   3) List Archived Notes   |
+       |                            |
+       ------------------------------
+       |   0) Exit SubMenu                  |
+       ------------------------------  
+    ==>> """.trimIndent())
+}
+
+fun runMenu(): Int {
     do {
         val option =mainMenu()
         when (option){
             1 -> addNote()
-            2 -> listNotes()
+            2 -> runSubMenu()
             3 -> updateNote()
             4 -> deleteNote()
             5 -> archiveNote()
@@ -51,6 +67,19 @@ fun runMenu(){
             else -> println("Invalid option entered: ${option}")
         }
      } while (true)
+}
+
+fun runSubMenu(){
+    do {
+        val option =subMenu()
+        when (option){
+            1 -> listNotes()
+            2 -> listActiveNotes()
+            3 -> listArchivedNotes()
+            0 -> exitSubMenu()
+            else -> println("Invalid option entered: ${option}")
+        }
+    } while (true)
 }
 
 fun saveNotes(){
@@ -87,13 +116,15 @@ fun listNotes(){
     println(noteAPI.listAllNotes())
 }
 
-/*fun listActiveNotes(){
-    logger.info {"listNotes"}
-}*/
+fun listActiveNotes(){
+    logger.info {"listActiveNotes() function invoked"}
+    println(noteAPI.listActiveNotes())
+}
 
-/*fun listArchivedNotes(){
-    logger.info {"listNotes"}
-}*/
+fun listArchivedNotes(){
+    logger.info {"listArchivedNotes() function invoked"}
+    println(noteAPI.listArchivedNotes())
+}
 
 fun updateNote(){
     logger.info {"updateNote() function invoked"}
@@ -151,4 +182,9 @@ fun deleteNote(){
 fun exitApp(){
     println("Exiting...bye")
     exit(0)
+}
+
+fun exitSubMenu(){
+    println("Exiting SubMenu byeeeeeee")
+    exit(runMenu())
 }

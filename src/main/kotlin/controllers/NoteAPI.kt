@@ -112,14 +112,17 @@ class NoteAPI(serializerType: Serializer) {
         return counter
     }
 
-    /*fun listNotesByCategory(): String {
+    /*fun listNotesByCategory(category : String): String {
         return if (notes.isEmpty()) {
             "No notes stored"
         } else {
             var listOfCategoriedNotes = ""
             for (i in notes.indices) {
-                listOfCategoriedNotes += "${i}: ${notes[i]} \n"
+                if(notes[i].noteCategory == category){
+                   listOfCategoriedNotes += "${i}: ${notes[i]} \n"
+                }
             }
+            ///
             listOfCategoriedNotes
         }
     }*/
@@ -142,6 +145,15 @@ class NoteAPI(serializerType: Serializer) {
         return false
     }
 
+    fun archiveNote(indexToArchive: Int): Boolean {
+        val foundNote = findNote(indexToArchive)
+
+        if ((foundNote !=null) && !foundNote.isNoteArchived) {
+            foundNote.isNoteArchived = true
+            return true
+        }
+        return false
+    }
     fun isValidIndex(index: Int): Boolean{
         return isValidListIndex(index, notes);
     }

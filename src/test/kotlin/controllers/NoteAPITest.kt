@@ -20,7 +20,7 @@ class NoteAPITest {
     private var emptyNotes: NoteAPI? = NoteAPI(XMLSerializer(File("notes.xml")))
 
     @BeforeEach
-    fun setup(){
+    fun setup() {
         learnKotlin = Note("Learning Kotlin", 5, "College", false)
         summerHoliday = Note("Summer Holiday to France", 1, "Holiday", false)
         codeApp = Note("Code App", 4, "Work", true)
@@ -36,7 +36,7 @@ class NoteAPITest {
     }
 
     @AfterEach
-    fun tearDown(){
+    fun tearDown() {
         learnKotlin = null
         summerHoliday = null
         codeApp = null
@@ -117,7 +117,8 @@ class NoteAPITest {
         @Test
         fun `listNotesBySelectedPriority returns No Notes when ArrayList is empty`() {
             assertEquals(0, emptyNotes!!.numberOfNotes())
-            assertTrue(emptyNotes!!.listNotesBySelectedPriority(1).lowercase().contains("no notes")
+            assertTrue(
+                emptyNotes!!.listNotesBySelectedPriority(1).lowercase().contains("no notes")
             )
         }
 
@@ -178,7 +179,7 @@ class NoteAPITest {
     @Nested
     inner class UpdateNotes {
         @Test
-        fun `updating a note that does not exist returns false`(){
+        fun `updating a note that does not exist returns false`() {
             assertFalse(populatedNotes!!.updateNote(6, Note("Updating Note", 2, "Work", false)))
             assertFalse(populatedNotes!!.updateNote(-1, Note("Updating Note", 2, "Work", false)))
             assertFalse(emptyNotes!!.updateNote(0, Note("Updating Note", 2, "Work", false)))
@@ -277,6 +278,32 @@ class NoteAPITest {
             assertEquals(storingNotes.findNote(0), loadedNotes.findNote(0))
             assertEquals(storingNotes.findNote(1), loadedNotes.findNote(1))
             assertEquals(storingNotes.findNote(2), loadedNotes.findNote(2))
+        }
+    }
+
+    @Nested
+    inner class ArchiveNotes {
+        @Test
+        fun `archiving a note that does not exist returns false`() {
+
+            assertFalse(populatedNotes!!.archiveNote(6))
+            assertFalse(populatedNotes!!.archiveNote(-1))
+            assertFalse(emptyNotes!!.archiveNote(0))
+        }
+
+        @Test
+        fun `Archiving a note that exists returns true and archives the note`() {
+            //check note 4 exists and check the contents
+            assertEquals(testApp, populatedNotes!!.findNote(3))
+            assertEquals("Test App", populatedNotes!!.findNote(3)!!.noteTitle)
+            assertEquals(4, populatedNotes!!.findNote(3)!!.notePriority)
+            assertEquals("Work", populatedNotes!!.findNote(3)!!.noteCategory)
+            assertEquals(false, populatedNotes!!.findNote(3)!!.isNoteArchived)
+            assertTrue(populatedNotes!!.archiveNote(3))
+            assertEquals("Test App", populatedNotes!!.findNote(3)!!.noteTitle)
+            assertEquals(4, populatedNotes!!.findNote(3)!!.notePriority)
+            assertEquals("Work", populatedNotes!!.findNote(3)!!.noteCategory)
+            assertEquals(true, populatedNotes!!.findNote(3)!!.isNoteArchived)
         }
     }
 }

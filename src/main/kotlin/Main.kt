@@ -118,8 +118,8 @@ fun updateNote(){
 }
 
 fun archiveNote(){
-    logger.info { "archiveNote() function invoked" }
-    noteAPI.listActiveNotes()
+    logger.info {"archiveNote() function invoked" }
+    println(noteAPI.listActiveNotes())
     if (noteAPI.numberOfActiveNotes() > 0) {
         val indexToArchive = readNextInt("Enter the index of the note to archive: ")
         if (noteAPI.isValidIndex(indexToArchive)) {

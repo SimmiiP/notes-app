@@ -2,7 +2,6 @@ import controllers.NoteAPI
 import models.Note
 import mu.KotlinLogging
 import persistance.JSONSerializer
-import persistance.XMLSerializer
 import utils.ScannerInput
 import utils.ScannerInput.readNextInt
 import utils.ScannerInput.readNextLine
@@ -27,6 +26,7 @@ fun mainMenu() : Int {
        |   2) List all notes        |
        |   3) Update a note         |
        |   4) Delete a note         |
+       |   5) Archive a note        |
        |   20) Save Notes           |
        |   21) Load Notes           |
        -----------------------------
@@ -44,6 +44,7 @@ fun runMenu(){
             2 -> listNotes()
             3 -> updateNote()
             4 -> deleteNote()
+            5 -> archiveNote()
             20 -> saveNotes()
             21 -> loadNotes()
             0 -> exitApp()
@@ -86,6 +87,14 @@ fun listNotes(){
     println(noteAPI.listAllNotes())
 }
 
+/*fun listActiveNotes(){
+    logger.info {"listNotes"}
+}*/
+
+/*fun listArchivedNotes(){
+    logger.info {"listNotes"}
+}*/
+
 fun updateNote(){
     logger.info {"updateNote() function invoked"}
     listNotes()
@@ -102,6 +111,23 @@ fun updateNote(){
             } else {
                 println("Update Failed")
             }
+        } else {
+            println("There are no notes for this index number")
+        }
+    }
+}
+
+fun archiveNote(){
+    logger.info {"archiveNote() function invoked" }
+    println(noteAPI.listActiveNotes())
+    if (noteAPI.numberOfActiveNotes() > 0) {
+        val indexToArchive = readNextInt("Enter the index of the note to archive: ")
+        if (noteAPI.isValidIndex(indexToArchive)) {
+            val ans: String = readNextLine("Archive this note? ")
+            if (ans == "Yes")
+                noteAPI.archiveNote(indexToArchive)
+            if (ans == "No")
+                println("Nevermind")
         } else {
             println("There are no notes for this index number")
         }

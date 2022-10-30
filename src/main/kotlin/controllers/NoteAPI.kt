@@ -1,7 +1,6 @@
 package controllers
 import models.Note
 import persistance.Serializer
-
 class NoteAPI(serializerType: Serializer) {
     private var notes = ArrayList<Note>()
     private var serializer: Serializer = serializerType
@@ -9,17 +8,7 @@ class NoteAPI(serializerType: Serializer) {
         return notes.add(note)
     }
 
-    fun listAllNotes(): String {
-        return if (notes.isEmpty()) {
-            "No notes stored"
-        } else {
-            var listOfNotes = ""
-            for (i in notes.indices) {
-                listOfNotes += "${i}: ${notes[i]} \n"
-            }
-            listOfNotes
-        }
-    }
+
 
     fun numberOfNotes(): Int {
         return notes.size
@@ -33,6 +22,15 @@ class NoteAPI(serializerType: Serializer) {
     fun isValidListIndex(index: Int, list: List<Any>): Boolean {
         return (index >= 0 && index < list.size)
     }
+
+    fun listAllNotes(): String =
+          if (notes.isEmpty())
+             "No notes stored"
+         else
+            notes.joinToString (separator = "\n"){ note ->
+                notes.indexOf(note).toString() + ":" + note.toString()
+
+        }
 
     fun listActiveNotes(): String {
         return if (numberOfActiveNotes() == 0) {

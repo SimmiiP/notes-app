@@ -1,7 +1,6 @@
 package controllers
 import models.Note
 import persistance.Serializer
-
 class NoteAPI(serializerType: Serializer) {
     private var notes = ArrayList<Note>()
     private var serializer: Serializer = serializerType
@@ -9,17 +8,7 @@ class NoteAPI(serializerType: Serializer) {
         return notes.add(note)
     }
 
-    fun listAllNotes(): String {
-        return if (notes.isEmpty()) {
-            "No notes stored"
-        } else {
-            var listOfNotes = ""
-            for (i in notes.indices) {
-                listOfNotes += "${i}: ${notes[i]} \n"
-            }
-            listOfNotes
-        }
-    }
+
 
     fun numberOfNotes(): Int {
         return notes.size
@@ -34,34 +23,52 @@ class NoteAPI(serializerType: Serializer) {
         return (index >= 0 && index < list.size)
     }
 
-    fun listActiveNotes(): String {
-        return if (numberOfActiveNotes() == 0) {
-            "No active notes stored"
-        } else {
-            var listOfActiveNotes = ""
-            for (note in notes) {
-                if (!note.isNoteArchived) {
-                    listOfActiveNotes += "${notes.indexOf(note)}: $note \n"
-                }
-                }
-            listOfActiveNotes
+    fun listAllNotes(): String =
+          if (notes.isEmpty())
+             "No notes stored"
+         else
+            notes.joinToString (separator = "\n"){ note ->
+                notes.indexOf(note).toString() + ":" + note.toString()
+
         }
+
+    fun listActiveNotes(): String =
+        if (numberOfActiveNotes() == 0 )
+            "No active notes stored"
+         else
+            notes.filter {note -> note.isNoteArchived == false}
+            .joinToString (separator = "\n"){ note ->
+                notes.indexOf(note).toString() + ":" + note.toString()
     }
 
-    fun listArchivedNotes(): String {
-        return if (numberOfArchivedNotes() == 0) {
+    fun listArchivedNotes(): String =
+         if (numberOfArchivedNotes() == 0)
             "No archived notes stored"
-        } else {
-            var listOfArchivedNotes = ""
-            for (note in notes) {
-                if (note.isNoteArchived) {
-                    listOfArchivedNotes += "${notes.indexOf(note)}: $note \n"
-                }
-            }
-            listOfArchivedNotes
-        }
-}
+         else
+             notes.filter {note -> note.isNoteArchived == true}
+                 .joinToString (separator = "\n"){ note ->
+                     notes.indexOf(note).toString() + ":" + note.toString()
+    }
 
+    fun listNotesBySelectedPriority(priority: Int): String =
+         if (notes.isEmpty())
+            "No notes stored"
+        else
+        {
+             var listOfNotes = ""
+             for (i in notes.indices) {
+                 if (notes[i].notePriority == priority) {
+                     listOfNotes +=
+                         """$i: ${notes[i]}
+                        """.trimIndent()
+                 }
+             }
+             if (listOfNotes.equals("")) {
+                 "No notes with priority: $priority"
+             } else {
+                 "${numberOfNotesByPriority(priority)} notes with priority $priority: $listOfNotes"
+             }
+         }
     fun numberOfArchivedNotes(): Int {
         return notes.stream()
             .filter { note: Note -> note.isNoteArchived }
@@ -81,26 +88,6 @@ class NoteAPI(serializerType: Serializer) {
             .filter{note: Note -> note.notePriority == priority}
             .count()
             .toInt()
-    }
-
-    fun listNotesBySelectedPriority(priority: Int): String {
-        return if (notes.isEmpty()){
-            "No notes stored"
-        } else {
-            var listOfNotes = ""
-            for (i in notes.indices) {
-                if (notes[i].notePriority == priority) {
-                    listOfNotes +=
-                        """$i: ${notes[i]}
-                        """.trimIndent()
-                }
-            }
-            if (listOfNotes.equals("")) {
-                "No notes with priority: $priority"
-            } else {
-                "${numberOfNotesByPriority(priority)} notes with priority $priority: $listOfNotes"
-            }
-        }
     }
 
 

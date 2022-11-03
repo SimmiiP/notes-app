@@ -40,7 +40,10 @@ private fun formatListString(notesToFormat : List<Note>): String =
         return
     }*/
 
-    /* fun searchByCategory*/
+    fun searchByCategory(searchString: String) =
+        formatListString(
+            notes.filter {note -> note.noteCategory.contains(searchString, ignoreCase = true)})
+
 
     fun listAllNotes(): String =
           if (notes.isEmpty())
@@ -81,6 +84,7 @@ private fun formatListString(notesToFormat : List<Note>): String =
                  "${numberOfNotesByPriority(priority)} notes with priority $priority: $listOfNotes"
              }
          }
+
     fun numberOfArchivedNotes(): Int =
         notes.count { note: Note -> note.isNoteArchived }
 
@@ -93,7 +97,7 @@ private fun formatListString(notesToFormat : List<Note>): String =
         notes.count {note: Note -> note.notePriority == priority}
 
 
-    /*fun listNotesByCategory(category : String): String {
+    fun listNotesByCategory(category : String): String {
         return if (notes.isEmpty()) {
             "No notes stored"
         } else {
@@ -106,7 +110,7 @@ private fun formatListString(notesToFormat : List<Note>): String =
             ///
             listOfCategoriedNotes
         }
-    }*/
+    }
 
     fun deleteNote(indexToDelete : Int): Note? {
         return if (isValidListIndex(indexToDelete, notes)) {

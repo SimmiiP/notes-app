@@ -63,8 +63,8 @@ fun subMenuTwo(): Int {
            ------------------------------
            | SEARCH NOTE SUBMENU        |
            |   1) Search by Title       |
-           |   2) Search by Priority    |
-           |   3) Search by Category    |
+           |   2) Search by Category    |
+           |   3) Search by Priority   |
            |                            |
            ------------------------------
            |   0) Exit SubMenu                  |
@@ -211,6 +211,18 @@ fun searchNotesByTitle(){
     }
 
 }
+
+/*fun searchNotesByCategory(){
+    val searchCategory = readNextLine( "Enter the category to search by: ")
+    val searchResults = noteAPI.searchByCategory(searchCategory)
+    if (searchResults.isEmpty()){
+        println("No notes found")
+    } else {
+        println(searchResults)
+    }
+}*/
+
+fun searchNotesByPriority(){}
 fun deleteNote(){
     logger.info {"deleteNote() function invoked"}
     listNotes()

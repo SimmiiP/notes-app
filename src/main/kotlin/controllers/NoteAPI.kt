@@ -40,6 +40,8 @@ private fun formatListString(notesToFormat : List<Note>): String =
         return
     }*/
 
+    /* fun searchByCategory*/
+
     fun listAllNotes(): String =
           if (notes.isEmpty())
              "No notes stored"

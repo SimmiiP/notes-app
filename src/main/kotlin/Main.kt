@@ -27,6 +27,8 @@ fun mainMenu() : Int {
        |   3) Update a note         |
        |   4) Delete a note         |
        |   5) Archive a note        |
+       ------------------------------
+       |   6) Search Notes
        |   20) Save Notes           |
        |   21) Load Notes           |
        -----------------------------
@@ -52,6 +54,24 @@ fun subMenu(): Int {
     ==>> """.trimIndent())
 }
 
+/*fun subMenu2(): Int {
+    return ScannerInput.readNextInt(
+        """
+          ------------------------------
+           |        NOTE KEEPER APP     |
+           ------------------------------
+           | SEARCH NOTE SUBMENU        |
+           |   1) Search by Title       |
+           |   2) Search by Priority    |
+           |   3) Search by Category    |
+           |                            |
+           ------------------------------
+           |   0) Exit SubMenu                  |
+           ------------------------------
+        ==>> """.trimIndent()
+    )
+}*/
+
 fun runMenu(): Int {
     do {
         val option =mainMenu()
@@ -61,6 +81,7 @@ fun runMenu(): Int {
             3 -> updateNote()
             4 -> deleteNote()
             5 -> archiveNote()
+            6 -> searchNotes()
             20 -> saveNotes()
             21 -> loadNotes()
             0 -> exitApp()
@@ -81,6 +102,8 @@ fun runSubMenu(){
         }
     } while (true)
 }
+
+
 
 fun saveNotes(){
     try {
@@ -165,6 +188,16 @@ fun archiveNote(){
     }
 }
 
+fun searchNotes(){
+    val searchTitle = readNextLine( "Enter the title to search by: ")
+    val searchResults = noteAPI.searchByTitle(searchTitle)
+    if (searchResults.isEmpty()){
+        println("No notes found")
+    } else {
+        println(searchResults)
+    }
+
+}
 fun deleteNote(){
     logger.info {"deleteNote() function invoked"}
     listNotes()

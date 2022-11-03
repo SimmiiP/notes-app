@@ -19,9 +19,24 @@ class NoteAPI(serializerType: Serializer) {
             notes[index]
         } else null
     }
+
+    fun isValidIndex(index: Int): Boolean{
+        return isValidListIndex(index, notes);
+    }
+
     fun isValidListIndex(index: Int, list: List<Any>): Boolean {
         return (index >= 0 && index < list.size)
     }
+
+    fun searchByTitle(searchString: String) =
+        notes.filter {note -> note.noteTitle.contains(searchString, ignoreCase = true)}
+            .joinToString( separator = "/n"){note ->
+                notes.indexOf(note).toString()+":"+note.toString()
+            }
+
+    /*fun searchByPriority(index: Int): Note?{
+        return
+    }*/
 
     fun listAllNotes(): String =
           if (notes.isEmpty())
@@ -132,9 +147,6 @@ class NoteAPI(serializerType: Serializer) {
             return true
         }
         return false
-    }
-    fun isValidIndex(index: Int): Boolean{
-        return isValidListIndex(index, notes);
     }
 
     @Throws(Exception::class)

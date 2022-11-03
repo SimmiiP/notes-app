@@ -28,12 +28,13 @@ fun mainMenu() : Int {
        |   4) Delete a note         |
        |   5) Archive a note        |
        ------------------------------
-       |   6) Search Notes
+       |   6) Search Notes          |
+       ------------------------------
        |   20) Save Notes           |
        |   21) Load Notes           |
-       -----------------------------
-       |   0) Exit                 |
-       -----------------------------
+       ------------------------------
+       |   0) Exit                  |
+       ------------------------------
        ==>> """.trimIndent())
 
 }
@@ -54,7 +55,7 @@ fun subMenu(): Int {
     ==>> """.trimIndent())
 }
 
-/*fun subMenu2(): Int {
+fun subMenuTwo(): Int {
     return ScannerInput.readNextInt(
         """
           ------------------------------
@@ -70,7 +71,7 @@ fun subMenu(): Int {
            ------------------------------
         ==>> """.trimIndent()
     )
-}*/
+}
 
 fun runMenu(): Int {
     do {
@@ -81,7 +82,7 @@ fun runMenu(): Int {
             3 -> updateNote()
             4 -> deleteNote()
             5 -> archiveNote()
-            6 -> searchNotes()
+            6 -> runSubMenuTwo()
             20 -> saveNotes()
             21 -> loadNotes()
             0 -> exitApp()
@@ -103,6 +104,18 @@ fun runSubMenu(){
     } while (true)
 }
 
+fun runSubMenuTwo(){
+    do {
+        val option =subMenuTwo()
+        when (option){
+            1 -> searchNotesByTitle()
+            /*2 -> searchNotesByCategory()*/
+            /*3 -> searchNotesByPriority()*/
+            0 -> exitSubMenu()
+            else -> println("Invalid option entered: ${option}")
+        }
+    } while (true)
+}
 
 
 fun saveNotes(){
@@ -188,7 +201,7 @@ fun archiveNote(){
     }
 }
 
-fun searchNotes(){
+fun searchNotesByTitle(){
     val searchTitle = readNextLine( "Enter the title to search by: ")
     val searchResults = noteAPI.searchByTitle(searchTitle)
     if (searchResults.isEmpty()){

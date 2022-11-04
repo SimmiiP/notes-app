@@ -88,6 +88,19 @@ class NoteAPITest {
         }
 
         @Test
+        fun `listNotesByCategory returns No Notes Stored message when ArrayList is empty`() {
+            assertEquals(0, emptyNotes!!.numberOfNotes())
+            assertTrue(emptyNotes!!.listNotesByCategory("").lowercase().contains("no notes"))
+        }
+
+        @Test
+        fun `listNotesByCategory returns Notes when ArrayList has notes stored`() {
+            assertEquals(5, populatedNotes!!.numberOfNotes())
+            val notesString = populatedNotes!!.listNotesByCategory("").lowercase()
+            assertTrue(notesString.contains(""))
+
+        }
+        @Test
         fun `listActiveNotes returns no active notes stored when ArrayList is empty`() {
             assertEquals(0, emptyNotes!!.numberOfActiveNotes())
             assertTrue(
@@ -143,7 +156,6 @@ class NoteAPITest {
             Assertions.assertFalse(priority1String.contains("learning kotlin"))
             Assertions.assertFalse(priority1String.contains("code app"))
             Assertions.assertFalse(priority1String.contains("test app"))
-
 
             val priority4String = populatedNotes!!.listNotesBySelectedPriority(4).lowercase()
             assertTrue(priority4String.contains("2 note"))

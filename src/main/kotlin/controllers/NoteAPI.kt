@@ -64,6 +64,16 @@ private fun formatListString(notesToFormat : List<Note>): String =
          else
              formatListString(notes.filter {note -> note.isNoteArchived == true})
 
+    fun listNotesToDo(): String =
+        if (numberOfNotesToDo() == 0 )
+            "Your all caught up!"
+        else
+            formatListString(notes.filter {note -> note.noteStatus == false})
+    fun listNotesDone(): String =
+        if (numberOfNotesDone() == 0 )
+            "Check To-Do"
+        else
+            formatListString(notes.filter {note -> note.noteStatus == true})
 
     fun listNotesBySelectedPriority(priority: Int): String =
          if (notes.isEmpty())
@@ -111,6 +121,11 @@ private fun formatListString(notesToFormat : List<Note>): String =
     fun numberOfNotesByPriority(priority: Int): Int =
         notes.count {note: Note -> note.notePriority == priority}
 
+    fun numberOfNotesToDo(): Int =
+        notes.count { note: Note -> !note.noteStatus}
+
+    fun numberOfNotesDone(): Int =
+        notes.count { note: Note -> note.noteStatus}
 
     fun deleteNote(indexToDelete : Int): Note? {
         return if (isValidListIndex(indexToDelete, notes)) {
@@ -135,6 +150,16 @@ private fun formatListString(notesToFormat : List<Note>): String =
 
         if ((foundNote !=null) && !foundNote.isNoteArchived) {
             foundNote.isNoteArchived = true
+            return true
+        }
+        return false
+    }
+
+    fun markANoteDone(indexToStatus: Int): Boolean {
+        val foundNote = findNote(indexToStatus)
+
+        if ((foundNote !=null) && !foundNote.noteStatus) {
+            foundNote.noteStatus = true
             return true
         }
         return false

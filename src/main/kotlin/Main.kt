@@ -30,6 +30,8 @@ fun mainMenu() : Int {
        ------------------------------
        |   6) Search Notes          |
        ------------------------------
+       |   7) Mark a note done      |
+       ------------------------------
        |   20) Save Notes           |
        |   21) Load Notes           |
        ------------------------------
@@ -44,13 +46,15 @@ fun subMenu(): Int {
        ------------------------------
        |        NOTE KEEPER APP     |
        ------------------------------
-       | LIST NOTE SUBMENU               |
+       | LIST NOTE SUBMENU          |
        |   1) List all Notes        |
        |   2) List Active Notes     |
        |   3) List Archived Notes   |
+       |   4) List Notes To Do      |
+       |   5) List Notes Done       |
        |                            |
        ------------------------------
-       |   0) Exit SubMenu                  |
+       |   0) Exit SubMenu          |
        ------------------------------  
     ==>> """.trimIndent())
 }
@@ -58,16 +62,16 @@ fun subMenu(): Int {
 fun subMenuTwo(): Int {
     return ScannerInput.readNextInt(
         """
-          ------------------------------
+           ------------------------------
            |        NOTE KEEPER APP     |
            ------------------------------
            | SEARCH NOTE SUBMENU        |
            |   1) Search by Title       |
            |   2) Search by Category    |
-           |   3) Search by Priority   |
+           |   3) Search by Priority    |
            |                            |
            ------------------------------
-           |   0) Exit SubMenu                  |
+           |   0) Exit SubMenu          |
            ------------------------------
         ==>> """.trimIndent()
     )
@@ -83,6 +87,7 @@ fun runMenu(): Int {
             4 -> deleteNote()
             5 -> archiveNote()
             6 -> runSubMenuTwo()
+            7 -> markANoteDone()
             20 -> saveNotes()
             21 -> loadNotes()
             0 -> exitApp()
@@ -98,6 +103,8 @@ fun runSubMenu(){
             1 -> listNotes()
             2 -> listActiveNotes()
             3 -> listArchivedNotes()
+            4 -> listNotesToDo()
+            5 -> listNotesDone()
             0 -> exitSubMenu()
             else -> println("Invalid option entered: ${option}")
         }
@@ -163,6 +170,16 @@ fun listArchivedNotes(){
     println(noteAPI.listArchivedNotes())
 }
 
+fun listNotesToDo(){
+    logger.info {"listNotesToDo() function invoked"}
+    println(noteAPI.listNotesToDo())
+}
+
+fun listNotesDone(){
+    logger.info {"listNotesDone() function invoked"}
+    println(noteAPI.listNotesDone())
+}
+
 fun updateNote(){
     logger.info {"updateNote() function invoked"}
     listNotes()
@@ -195,6 +212,23 @@ fun archiveNote(){
             val ans: String = readNextLine("Archive this note? ")
             if (ans == "Yes")
                 noteAPI.archiveNote(indexToArchive)
+            if (ans == "No")
+                println("Nevermind")
+        } else {
+            println("There are no notes for this index number")
+        }
+    }
+}
+
+fun markANoteDone(){
+    logger.info {"markANoteDone() function invoked" }
+    println(noteAPI.listNotesToDo())
+    if (noteAPI.numberOfNotesToDo() > 0) {
+        val indexToStatus = readNextInt("Enter the index of the note to mark done: ")
+        if (noteAPI.isValidIndex(indexToStatus)) {
+            val ans: String = readNextLine("Mark this note done? ")
+            if (ans == "Yes")
+                noteAPI.markANoteDone(indexToStatus)
             if (ans == "No")
                 println("Nevermind")
         } else {

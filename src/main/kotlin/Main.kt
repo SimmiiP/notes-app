@@ -109,7 +109,7 @@ fun runSubMenuTwo(){
         val option =subMenuTwo()
         when (option){
             1 -> searchNotesByTitle()
-            /*2 -> searchNotesByCategory()*/
+            2 -> searchNotesByCategory()
             /*3 -> searchNotesByPriority()*/
             0 -> exitSubMenu()
             else -> println("Invalid option entered: ${option}")
@@ -212,7 +212,7 @@ fun searchNotesByTitle(){
 
 }
 
-/*fun searchNotesByCategory(){
+fun searchNotesByCategory(){
     val searchCategory = readNextLine( "Enter the category to search by: ")
     val searchResults = noteAPI.searchByCategory(searchCategory)
     if (searchResults.isEmpty()){
@@ -220,7 +220,7 @@ fun searchNotesByTitle(){
     } else {
         println(searchResults)
     }
-}*/
+}
 
 fun searchNotesByPriority(){}
 fun deleteNote(){

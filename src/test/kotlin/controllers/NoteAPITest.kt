@@ -380,6 +380,19 @@ class NoteAPITest {
             assertEquals(1, populatedNotes!!.numberOfNotesByPriority(5))
             assertEquals(0, emptyNotes!!.numberOfNotesByPriority(1))
         }
+
+        @Test
+        fun numberOfNotesToDoCalculatedCorrectly() {
+            assertEquals(3, populatedNotes!!.numberOfNotesToDo())
+            assertEquals(0, emptyNotes!!.numberOfNotesToDo())
+        }
+
+        @Test
+        fun numberOfNotesDoneCalculatedCorrectly() {
+            assertEquals(2, populatedNotes!!.numberOfNotesDone())
+            assertEquals(0, emptyNotes!!.numberOfNotesDone())
+        }
+
     }
 
     @Nested
@@ -412,6 +425,33 @@ class NoteAPITest {
             assertTrue(searchResults.contains("Code App"))
             assertTrue(searchResults.contains("Test App"))
             assertFalse(searchResults.contains("Swim - Pool"))
+        }
+
+        @Test
+        fun `search notes by category returns no notes when no notes with that category exists`(){
+            assertEquals(5,populatedNotes!!.numberOfNotes())
+            val searchResults = populatedNotes!!.searchByCategory("no results expected")
+            assertTrue(searchResults.isEmpty())
+
+            assertEquals(0,emptyNotes!!.numberOfNotes())
+            assertTrue(emptyNotes!!.searchByCategory("").isEmpty())
+        }
+
+        @Test
+        fun `search notes by category returns notes when notes with that category exist`(){
+            assertEquals(5, populatedNotes!!.numberOfNotes())
+
+            var searchResults = populatedNotes!!.searchByCategory("Hobby")
+            assertTrue(searchResults.contains("Hobby"))
+            assertFalse(searchResults.contains("Work"))
+
+            searchResults = populatedNotes!!.searchByCategory("Hob")
+            assertTrue(searchResults.contains("Hobby"))
+            assertFalse(searchResults.contains("College"))
+
+            searchResults = populatedNotes!!.searchByCategory(("HoBbY"))
+            assertTrue(searchResults.contains("Hobby"))
+            assertFalse(searchResults.contains("College"))
         }
     }
 }

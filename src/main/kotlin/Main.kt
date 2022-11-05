@@ -31,6 +31,7 @@ fun mainMenu() : Int {
        |   6) Search Notes          |
        ------------------------------
        |   7) Mark a note done      |
+       |   8) Mark a note to-do     |
        ------------------------------
        |   20) Save Notes           |
        |   21) Load Notes           |
@@ -88,6 +89,7 @@ fun runMenu(): Int {
             5 -> archiveNote()
             6 -> runSubMenuTwo()
             7 -> markANoteDone()
+            8 -> markANoteToDo()
             20 -> saveNotes()
             21 -> loadNotes()
             0 -> exitApp()
@@ -229,6 +231,23 @@ fun markANoteDone(){
             val ans: String = readNextLine("Mark this note done? ")
             if (ans == "Yes")
                 noteAPI.markANoteDone(indexToStatus)
+            if (ans == "No")
+                println("Nevermind")
+        } else {
+            println("There are no notes for this index number")
+        }
+    }
+}
+
+fun markANoteToDo(){
+    logger.info {"markANoteToDo() function invoked" }
+    println(noteAPI.listNotesDone())
+    if (noteAPI.numberOfNotesDone() > 0) {
+        val indexToStatus = readNextInt("Enter the index of the note to mark to-do: ")
+        if (noteAPI.isValidIndex(indexToStatus)) {
+            val ans: String = readNextLine("Mark this note to-do? ")
+            if (ans == "Yes")
+                noteAPI.markANoteToDo(indexToStatus)
             if (ans == "No")
                 println("Nevermind")
         } else {

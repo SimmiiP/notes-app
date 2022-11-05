@@ -351,6 +351,38 @@ class NoteAPITest {
     }
 
     @Nested
+    inner class MarkNotesToDo {
+        @Test
+        fun `Marking a note that does not exist returns false`() {
+
+            assertTrue(populatedNotes!!.markANoteToDo(6))
+            assertTrue(populatedNotes!!.markANoteToDo(-1))
+            assertTrue(emptyNotes!!.markANoteToDo(0))
+        }
+
+        @Test
+        fun `Marking a note that exists returns false and marks the note`() {
+            //check note 4 exists and check the contents
+            assertEquals(codeApp, populatedNotes!!.findNote(2))
+            assertEquals("Code App", populatedNotes!!.findNote(2)!!.noteTitle)
+            assertEquals(4, populatedNotes!!.findNote(2)!!.notePriority)
+            assertEquals("Work", populatedNotes!!.findNote(2)!!.noteCategory)
+            assertEquals(true, populatedNotes!!.findNote(2)!!.isNoteArchived)
+            assertFalse(populatedNotes!!.archiveNote(2))
+            assertEquals("9am meeting", populatedNotes!!.findNote(2)!!.noteContent)
+            assertEquals(true, populatedNotes!!.findNote(2)!!.noteStatus)
+            assertFalse(populatedNotes!!.markANoteDone(2))
+            assertEquals("Code App", populatedNotes!!.findNote(2)!!.noteTitle)
+            assertEquals(4, populatedNotes!!.findNote(2)!!.notePriority)
+            assertEquals("Work", populatedNotes!!.findNote(2)!!.noteCategory)
+            assertEquals(true, populatedNotes!!.findNote(2)!!.isNoteArchived)
+            assertEquals("9am meeting", populatedNotes!!.findNote(2)!!.noteContent)
+            assertEquals(true, populatedNotes!!.findNote(2)!!.noteStatus)
+        }
+    }
+
+
+    @Nested
     inner class CountingMethods {
 
         @Test

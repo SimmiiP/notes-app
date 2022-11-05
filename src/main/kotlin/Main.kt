@@ -89,6 +89,7 @@ fun subMenuTwo(): Int {
     )
 }
 
+ // MENUS
 fun runMenu(): Int {
     do {
         val option =mainMenu()
@@ -137,7 +138,7 @@ fun runSubMenuTwo(){
     } while (true)
 }
 
-
+ // SAVE AND LOAD
 fun saveNotes(){
     try {
         noteAPI.store()
@@ -153,6 +154,8 @@ fun loadNotes(){
         System.err.println("Error reading to file: $e")
     }
 }
+
+// ADD, UPDATE AND DELETE
 fun addNote(){
     logger.info {"addNote() function invoked"}
     val noteTitle = readNextLine("Enter a title for the note: ")
@@ -161,36 +164,12 @@ fun addNote(){
     val noteContent = readNextLine("Enter Message: ")
     val isAdded = noteAPI.add(Note(noteTitle, notePriority, noteCategory, false, noteContent,  false))
 
+
     if (isAdded) {
         println("Added Successfully")
     }else{
         println("Add Failed")
     }
-}
-
-fun listNotes(){
-    logger.info {"listNotes() function invoked"}
-    println(noteAPI.listAllNotes())
-}
-
-fun listActiveNotes(){
-    logger.info {"listActiveNotes() function invoked"}
-    println(noteAPI.listActiveNotes())
-}
-
-fun listArchivedNotes(){
-    logger.info {"listArchivedNotes() function invoked"}
-    println(noteAPI.listArchivedNotes())
-}
-
-fun listNotesToDo(){
-    logger.info {"listNotesToDo() function invoked"}
-    println(noteAPI.listNotesToDo())
-}
-
-fun listNotesDone(){
-    logger.info {"listNotesDone() function invoked"}
-    println(noteAPI.listNotesDone())
 }
 
 fun updateNote(){
@@ -216,6 +195,21 @@ fun updateNote(){
     }
 }
 
+fun deleteNote(){
+    logger.info {"deleteNote() function invoked"}
+    listNotes()
+    if (noteAPI.numberOfNotes() > 0){
+        val indexToDelete = readNextInt("Enter the index of the note to delete: ")
+        val noteToDelete = noteAPI.deleteNote(indexToDelete)
+        if(noteToDelete != null) {
+            print("Delete Successful! Deleted note ${noteToDelete.noteTitle}")
+        } else {
+            println("Delete NOT Successful")
+        }
+    }
+}
+
+ // ARCHIVE AND MARK NOTES
 fun archiveNote(){
     logger.info {"archiveNote() function invoked" }
     println(noteAPI.listActiveNotes())
@@ -267,22 +261,48 @@ fun markANoteToDo(){
     }
 }
 
+ // LIST NOTES
+fun listNotes(){
+    logger.info {"listNotes() function invoked"}
+    println(noteAPI.listAllNotes())
+}
+
+fun listActiveNotes(){
+    logger.info {"listActiveNotes() function invoked"}
+    println(noteAPI.listActiveNotes())
+}
+
+fun listArchivedNotes(){
+    logger.info {"listArchivedNotes() function invoked"}
+    println(noteAPI.listArchivedNotes())
+}
+
+fun listNotesToDo(){
+    logger.info {"listNotesToDo() function invoked"}
+    println(noteAPI.listNotesToDo())
+}
+
+fun listNotesDone(){
+    logger.info {"listNotesDone() function invoked"}
+    println(noteAPI.listNotesDone())
+}
+
+ // SEARCH NOTES
 fun searchNotesByTitle(){
     val searchTitle = readNextLine( "Enter the title to search by: ")
     val searchResults = noteAPI.searchByTitle(searchTitle)
     if (searchResults.isEmpty()){
-        println("No notes found")
+        println("No notes of that title found")
     } else {
         println(searchResults)
     }
-
 }
 
 fun searchNotesByCategory(){
     val searchCategory = readNextLine( "Enter the category to search by: ")
     val searchResults = noteAPI.searchByCategory(searchCategory)
     if (searchResults.isEmpty()){
-        println("No notes found")
+        println("No notes of that category found")
     } else {
         println(searchResults)
     }
@@ -292,25 +312,13 @@ fun searchNotesByPriority(){
     val searchPriority = readNextInt( "Enter the priority to search by: ")
     val searchResults = noteAPI.searchByPriority(searchPriority)
     if (searchResults.isEmpty()){
-        println("No notes found")
+        println("No notes of that priority found")
     } else {
         println(searchResults)
     }
 }
 
-fun deleteNote(){
-    logger.info {"deleteNote() function invoked"}
-    listNotes()
-    if (noteAPI.numberOfNotes() > 0){
-        val indexToDelete = readNextInt("Enter the index of the note to delete: ")
-        val noteToDelete = noteAPI.deleteNote(indexToDelete)
-        if(noteToDelete != null) {
-            print("Delete Successful! Deleted note ${noteToDelete.noteTitle}")
-        } else {
-            println("Delete NOT Successful")
-        }
-    }
-}
+ // EXIT MENU'S
 
 fun exitApp(){
     println("Exiting...bye")

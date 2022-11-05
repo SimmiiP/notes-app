@@ -485,5 +485,25 @@ class NoteAPITest {
             assertTrue(searchResults.contains("Hobby"))
             assertFalse(searchResults.contains("College"))
         }
+
+        @Test
+        fun `search notes by priority returns no notes when no notes with that priority exists`(){
+            assertEquals(5,populatedNotes!!.numberOfNotes())
+            val searchResults = populatedNotes!!.searchByPriority(0)
+            assertTrue(searchResults.isEmpty())
+
+            assertEquals(0,emptyNotes!!.numberOfNotes())
+            assertTrue(emptyNotes!!.searchByPriority(0).isEmpty())
+        }
+
+        @Test
+        fun `search notes by priority returns notes when notes with that priority exist`(){
+            assertEquals(5, populatedNotes!!.numberOfNotes())
+
+            var searchResults = populatedNotes!!.searchByPriority(1)
+            assertTrue(searchResults.contains("Summer Holiday to France"))
+            assertFalse(searchResults.contains("Work"))
+
+        }
     }
 }

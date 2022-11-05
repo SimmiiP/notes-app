@@ -130,7 +130,7 @@ fun runSubMenuTwo(){
         when (option){
             1 -> searchNotesByTitle()
             2 -> searchNotesByCategory()
-            /*3 -> searchNotesByPriority()*/
+            3 -> searchNotesByPriority()
             0 -> exitSubMenu()
             else -> println("Invalid option entered: ${option}")
         }
@@ -288,7 +288,16 @@ fun searchNotesByCategory(){
     }
 }
 
-fun searchNotesByPriority(){}
+fun searchNotesByPriority(){
+    val searchPriority = readNextInt( "Enter the priority to search by: ")
+    val searchResults = noteAPI.searchByPriority(searchPriority)
+    if (searchResults.isEmpty()){
+        println("No notes found")
+    } else {
+        println(searchResults)
+    }
+}
+
 fun deleteNote(){
     logger.info {"deleteNote() function invoked"}
     listNotes()

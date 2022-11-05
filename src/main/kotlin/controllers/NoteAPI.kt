@@ -165,6 +165,16 @@ private fun formatListString(notesToFormat : List<Note>): String =
         return false
     }
 
+    fun markANoteToDo(indexToStatus: Int): Boolean {
+        val foundNote = findNote(indexToStatus)
+
+        if ((foundNote !=null) && !foundNote.noteStatus) {
+            foundNote.noteStatus = false
+            return false
+        }
+        return true
+    }
+
     @Throws(Exception::class)
     fun load() {
         notes = serializer.read() as ArrayList<Note>

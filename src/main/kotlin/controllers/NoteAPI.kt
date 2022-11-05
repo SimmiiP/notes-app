@@ -44,7 +44,9 @@ private fun formatListString(notesToFormat : List<Note>): String =
         formatListString(
             notes.filter {note -> note.noteCategory.contains(searchString, ignoreCase = true)})
 
-
+    fun searchByPriority(priority: Int): String =
+        formatListString(
+            notes.filter {note -> note.notePriority == priority})
     fun listAllNotes(): String =
           if (notes.isEmpty())
              "No notes stored"

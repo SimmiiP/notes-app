@@ -1,3 +1,4 @@
+
 import controllers.NoteAPI
 import models.Note
 import mu.KotlinLogging
@@ -8,6 +9,16 @@ import utils.ScannerInput.readNextLine
 import java.io.File
 import java.lang.System.exit
 
+const val ANSI_RESET = "\u001B[0m"
+const val ANSI_BLACK = "\u001B[30m"
+const val ANSI_RED = "\u001B[31m"
+const val ANSI_GREEN = "\u001B[32m"
+const val ANSI_YELLOW = "\u001B[33m"
+const val ANSI_BLUE = "\u001B[34m"
+const val ANSI_PURPLE = "\u001B[35m"
+const val ANSI_CYAN = "\u001B[36m"
+const val ANSI_WHITE = "\u001B[37m"
+
 private val logger = KotlinLogging.logger {}
 private val noteAPI = NoteAPI(JSONSerializer(File("notes.json")))
 fun main(args: Array<String>) {
@@ -17,33 +28,33 @@ fun main(args: Array<String>) {
 
 
 fun mainMenu() : Int {
-    return ScannerInput.readNextInt("""
+    return ScannerInput.readNextInt("""${ANSI_BLUE}
        ------------------------------
        |        NOTE KEEPER APP     |
        ------------------------------
        | NOTE MENU                  |
        |   1) Add a note            |
-       |   2) List notes            |
-       |   3) Update a note         |
+       ${ANSI_RED}|   2) List notes            |${ANSI_RESET}
+       ${ANSI_BLUE}|   3) Update a note         |
        |   4) Delete a note         |
        |   5) Archive a note        |
        ------------------------------
-       |   6) Search Notes          |
-       ------------------------------
+       ${ANSI_RED}|   6) Search Notes          |${ANSI_RESET}
+       ${ANSI_BLUE}------------------------------
        |   7) Mark a note done      |
        |   8) Mark a note to-do     |
        ------------------------------
        |   20) Save Notes           |
        |   21) Load Notes           |
        ------------------------------
-       |   0) Exit                  |
+       ${ANSI_RED}|   0) Exit                  |
        ------------------------------
-       ==>> """.trimIndent())
+       ==>> ${ANSI_RESET}""".trimIndent())
 
 }
 
 fun subMenu(): Int {
-    return ScannerInput.readNextInt("""
+    return ScannerInput.readNextInt("""${ANSI_CYAN}
        ------------------------------
        |        NOTE KEEPER APP     |
        ------------------------------
@@ -55,14 +66,14 @@ fun subMenu(): Int {
        |   5) List Notes Done       |
        |                            |
        ------------------------------
-       |   0) Exit SubMenu          |
+       ${ANSI_RED}|   0) Exit SubMenu          |
        ------------------------------  
-    ==>> """.trimIndent())
+    ==>> ${ANSI_RESET}""".trimIndent())
 }
 
 fun subMenuTwo(): Int {
     return ScannerInput.readNextInt(
-        """
+        """${ANSI_PURPLE}
            ------------------------------
            |        NOTE KEEPER APP     |
            ------------------------------
@@ -72,9 +83,9 @@ fun subMenuTwo(): Int {
            |   3) Search by Priority    |
            |                            |
            ------------------------------
-           |   0) Exit SubMenu          |
+           ${ANSI_RED}|   0) Exit SubMenu          |
            ------------------------------
-        ==>> """.trimIndent()
+        ==>> ${ANSI_RESET}""".trimIndent()
     )
 }
 
